@@ -173,11 +173,14 @@
 
   /* ── 모달 (Wix 원본 스타일: 흰 카드 + 중앙 본문) ── */
   .modal-overlay {
-    position: fixed; inset: 0;
+    position: fixed;
+    inset: 0;
     background: rgba(0,0,0,0.45);
     z-index: 500;
-    display: flex; align-items: flex-start; justify-content: center;
-    padding: 40px 20px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
     overflow-y: auto;
     opacity: 0; pointer-events: none;
     transition: opacity 0.2s;
@@ -190,12 +193,13 @@
     border: 1px solid var(--border);
     border-radius: 6px;
     width: 100%; max-width: 680px;
-    overflow: hidden;
+    max-height: 90vh;
+    overflow-y: auto;
     transform: translateY(16px);
     transition: transform 0.22s;
-    margin: auto;
     position: relative;
     box-shadow: 0 8px 40px rgba(0,0,0,0.14);
+    flex-shrink: 0;
   }
   .modal-overlay.open .modal { transform: translateY(0); }
 
@@ -673,6 +677,7 @@ function openPost(id) {
 
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+  window.scrollTo({top: 0, behavior: 'instant'});
 }
 function closeByOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 function closeModal() {
