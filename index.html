@@ -8,316 +8,68 @@
 <style>
   :root {
     --primary: #3d3dc8;
-    --primary-dark: #2b2b9a;
     --bg: #ffffff;
     --text: #1a1a1a;
     --text-mid: #444;
     --text-light: #999;
     --border: #e8e8e8;
-
     --heart: #e0e0e0;
     --heart-active: #e05555;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-  }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); }
 
-  /* 네비/히어로 없음 — embed 전용 */
+  .all-posts-bar { padding: 20px 40px 0; border-bottom: 1px solid var(--border); max-width: 900px; margin: 0 auto; }
+  .all-posts-link { display: inline-block; font-size: 0.88rem; font-weight: 500; color: var(--primary); text-decoration: none; padding-bottom: 12px; border-bottom: 2px solid var(--primary); }
 
-  /* ── All Posts 링크 ── */
-  .all-posts-bar {
-    padding: 20px 40px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .all-posts-link {
-    display: inline-block;
-    font-size: 0.88rem; font-weight: 500;
-    color: var(--primary); text-decoration: none;
-    padding-bottom: 12px;
-    border-bottom: 2px solid var(--primary);
-  }
-
-  /* ── 포스트 리스트 ── */
-  .post-list {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 40px 80px;
-  }
-
-  .post-item {
-    display: flex;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    padding: 40px 0;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  .post-item:hover { opacity: 0.85; }
-  .post-item:first-child { padding-top: 36px; }
-
-  /* 썸네일 — Wix 원본은 좌측 큰 정사각형 이미지 */
-  .post-thumb {
-    width: 240px;
-    min-width: 240px;
-    height: 180px;
-    border-radius: 2px;
-    overflow: hidden;
-    background: #f0f0f5;
-    margin-right: 28px;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.5rem;
-    color: #aaa;
-  }
-  .post-thumb img {
-    width: 100%; height: 100%; object-fit: cover;
-  }
-  .post-thumb.no-img { background: #f4f4f8; }
-
-  /* 우측 텍스트 */
-  .post-info { flex: 1; display: flex; flex-direction: column; }
-
-  .post-meta-top {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 10px;
-  }
-  .post-avatar {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: var(--primary);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.6rem; color: #fff; font-weight: 700;
-    flex-shrink: 0;
-  }
-  .post-author { font-size: 0.78rem; font-weight: 500; color: var(--text-mid); }
-  .post-date-read { font-size: 0.75rem; color: var(--text-light); }
-  .post-dot { color: var(--text-light); font-size: 0.7rem; }
-  .post-more-btn {
-    margin-left: auto;
-    background: none; border: none; cursor: pointer;
-    color: var(--text-light); font-size: 1.1rem; padding: 2px 6px;
-    border-radius: 4px; line-height: 1;
-  }
-  .post-more-btn:hover { background: #f0f0f0; }
-
-  .post-title {
-    font-size: 1.05rem; font-weight: 700;
-    color: var(--text); margin-bottom: 10px;
-    line-height: 1.4;
-  }
-  .post-excerpt {
-    font-size: 0.82rem; color: var(--text-mid);
-    line-height: 1.7;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    flex: 1;
-  }
-
-  .post-footer {
-    display: flex; align-items: center; gap: 16px;
-    margin-top: 14px;
-  }
-  .post-stats { font-size: 0.75rem; color: var(--text-light); }
-  .post-heart {
-    margin-left: auto;
-    background: none; border: none; cursor: pointer;
-    color: var(--heart); font-size: 1.1rem;
-    transition: color 0.15s; padding: 0;
-  }
-  .post-heart.liked { color: var(--heart-active); }
-  .post-cat-badge {
-    font-size: 0.68rem; font-weight: 700;
-    padding: 2px 8px; border-radius: 3px; color: #fff;
-    letter-spacing: 0.04em;
-  }
-
-  /* ── 페이지네이션 ── */
-  .pagination {
-    display: flex; justify-content: center; gap: 4px;
-    padding: 32px 40px 60px;
-  }
-  .page-btn {
-    min-width: 36px; height: 36px; padding: 0 8px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    background: transparent; font-size: 0.82rem;
-    cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
-    color: var(--text-mid); transition: all 0.15s;
-  }
-  .page-btn:hover { border-color: var(--primary); color: var(--primary); }
-  .page-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
-
-  /* ── 필터 탭 (All Posts 바 아래) ── */
-  .cat-tabs {
-    padding: 0 40px;
-    display: flex; gap: 0;
-    border-bottom: 1px solid var(--border);
-    max-width: 900px; margin: 0 auto;
-  }
-  .cat-tab {
-    padding: 14px 18px 12px;
-    font-size: 0.82rem; font-weight: 500;
-    color: var(--text-light); cursor: pointer;
-    border-bottom: 2px solid transparent;
-    background: none; border-top: none; border-left: none; border-right: none;
-    font-family: 'Noto Sans KR', sans-serif;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
+  .cat-tabs { padding: 0 40px; display: flex; gap: 0; border-bottom: 1px solid var(--border); max-width: 900px; margin: 0 auto; }
+  .cat-tab { padding: 14px 18px 12px; font-size: 0.82rem; font-weight: 500; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; background: none; border-top: none; border-left: none; border-right: none; font-family: 'Noto Sans KR', sans-serif; transition: all 0.15s; white-space: nowrap; }
   .cat-tab:hover { color: var(--text); }
   .cat-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 700; }
 
-  /* ── 모달 (Wix 원본 스타일: 흰 카드 + 중앙 본문) ── */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    z-index: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    overflow-y: auto;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.2s;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .post-list { max-width: 900px; margin: 0 auto; padding: 0 40px 80px; }
+  .post-item { display: flex; border-bottom: 1px solid var(--border); padding: 40px 0; cursor: pointer; transition: opacity 0.15s; text-decoration: none; color: inherit; }
+  .post-item:hover { opacity: 0.82; }
+  .post-item:first-child { padding-top: 36px; }
 
-  /* 전체 카드 — 흰 배경, 테두리, 둥근 모서리 */
-  .modal {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    width: 100%; max-width: 680px;
-    max-height: 90vh;
-    overflow-y: auto;
-    transform: translateY(16px);
-    transition: transform 0.22s;
-    position: relative;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.14);
-    flex-shrink: 0;
-  }
-  .modal-overlay.open .modal { transform: translateY(0); }
+  .post-thumb { width: 240px; min-width: 240px; height: 180px; border-radius: 2px; overflow: hidden; background: #f0f0f5; margin-right: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #aaa; }
+  .post-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* 닫기 버튼 */
-  .modal-close {
-    position: absolute; top: 14px; right: 16px;
-    background: none; border: none;
-    font-size: 1.1rem; cursor: pointer; z-index: 10;
-    color: var(--text-light); line-height: 1;
-    padding: 4px 6px; border-radius: 4px;
-    transition: color 0.15s;
-  }
-  .modal-close:hover { color: var(--text); }
+  .post-info { flex: 1; display: flex; flex-direction: column; }
+  .post-meta-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .post-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: #fff; font-weight: 700; flex-shrink: 0; }
+  .post-author { font-size: 0.78rem; font-weight: 500; color: var(--text-mid); }
+  .post-date-read { font-size: 0.75rem; color: var(--text-light); }
+  .post-dot { color: var(--text-light); font-size: 0.7rem; }
+  .post-more-btn { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 1.1rem; padding: 2px 6px; border-radius: 4px; }
 
-  /* 상단 메타 (아바타 + 작성자 + 날짜) — 좌측 정렬 */
-  .modal-meta-row {
-    display: flex; align-items: center; gap: 8px;
-    padding: 20px 28px 0;
-    flex-wrap: wrap;
-  }
-  .modal-avatar {
-    width: 32px; height: 32px; border-radius: 50%;
-    overflow: hidden; flex-shrink: 0;
-    background: #e8e8f0;
-  }
-  .modal-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .modal-avatar-txt {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: var(--primary);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.6rem; color: #fff; font-weight: 700; flex-shrink: 0;
-  }
-  .modal-author { font-size: 0.82rem; font-weight: 600; color: var(--text); }
-  .modal-dot { color: var(--text-light); font-size: 0.75rem; }
-  .modal-date-txt { font-size: 0.78rem; color: var(--text-light); }
-  .modal-more {
-    margin-left: auto; background: none; border: none;
-    color: var(--text-light); font-size: 1rem; cursor: pointer;
-    padding: 2px 4px;
-  }
+  .post-title { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 10px; line-height: 1.4; }
+  .post-excerpt { font-size: 0.82rem; color: var(--text-mid); line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
 
-  /* 본문 래퍼 — 중앙 정렬 */
-  .modal-body-wrap {
-    padding: 20px 28px 44px;
-    text-align: center;
-  }
+  .post-footer { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+  .post-stats { font-size: 0.75rem; color: var(--text-light); }
+  .post-cat-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; color: #fff; letter-spacing: 0.04em; }
+  .post-heart { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--heart); font-size: 1.1rem; transition: color 0.15s; padding: 0; }
+  .post-heart.liked { color: var(--heart-active); }
 
-  /* 큰 제목 — Wix 원본처럼 굵고 크게 */
-  .modal-title {
-    font-size: 1.75rem; font-weight: 700;
-    color: var(--text);
-    line-height: 1.35; letter-spacing: -0.025em;
-    margin-bottom: 28px;
-    text-align: left;
-  }
+  .pagination { display: flex; justify-content: center; gap: 4px; padding: 32px 40px 60px; }
+  .page-btn { min-width: 36px; height: 36px; padding: 0 8px; border-radius: 4px; border: 1px solid var(--border); background: transparent; font-size: 0.82rem; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; color: var(--text-mid); transition: all 0.15s; }
+  .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .page-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
 
-  /* 소제목 (선정 기준 등) */
-  .modal-section-heading {
-    font-size: 1rem; font-weight: 600;
-    color: var(--text); margin-bottom: 14px;
-    text-align: center;
-  }
-
-  /* 본문 텍스트 — 중앙 정렬, 줄간격 넉넉 */
-  .modal-text {
-    font-size: 0.88rem; line-height: 2.0;
-    color: var(--text-mid);
-    text-align: center;
-    white-space: pre-wrap;
-  }
-
-  /* 이미지 — 중앙 정렬, 세로로 쌓기 */
-  .modal-imgs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    margin-top: 28px;
-  }
-  .modal-imgs img {
-    max-width: 100%;
-    width: auto;
-    max-height: 500px;
-    border-radius: 4px;
-    object-fit: contain;
-  }
-
-  .pdf-box {
-    display: flex; align-items: center; gap: 14px;
-    background: #f6f6fb; border: 1px solid #e0e0f0;
-    border-radius: 4px; padding: 16px 20px; margin-top: 12px;
-    font-size: 0.82rem; color: var(--text-mid);
-    text-align: left; text-decoration: none;
-    transition: background 0.15s, border-color 0.15s;
-    cursor: pointer;
-  }
-  .pdf-box:hover { background: #eeeeff; border-color: var(--primary); }
-  .pdf-box .ico { font-size: 1.8rem; flex-shrink: 0; }
-
-  /* 반응형 */
   @media (max-width: 700px) {
-    .all-posts-bar { padding-left: 16px; padding-right: 16px; }
+    .all-posts-bar, .cat-tabs { padding-left: 16px; padding-right: 16px; }
     .post-list { padding: 0 16px 60px; }
     .post-thumb { width: 110px; min-width: 110px; height: 90px; margin-right: 14px; }
     .post-title { font-size: 0.88rem; }
-    .modal-meta-row { padding: 16px 18px 0; }
-    .modal-body-wrap { padding: 16px 18px 36px; }
-    .modal-title { font-size: 1.3rem; }
-    .cat-tabs { padding: 0 16px; overflow-x: auto; }
-    .pagination { padding: 20px; }
+    .cat-tabs { overflow-x: auto; }
   }
 </style>
 </head>
 <body>
 
-<!-- All Posts + 카테고리 탭 -->
-<div class="all-posts-bar" style="max-width:900px;margin:0 auto;">
-  <a href="#" class="all-posts-link" onclick="filterPosts('all');return false;">All Posts</a>
+<div class="all-posts-bar">
+  <a href="#" class="all-posts-link" onclick="filterPosts('all',null);return false;">All Posts</a>
 </div>
 <div class="cat-tabs">
   <button class="cat-tab active" onclick="filterPosts('all',this)">전체</button>
@@ -327,31 +79,10 @@
   <button class="cat-tab" onclick="filterPosts('history',this)">🏛 학회 역사</button>
 </div>
 
-<!-- 포스트 리스트 -->
 <div class="post-list" id="postList"></div>
-
-<!-- 페이지네이션 -->
 <div class="pagination" id="pagination"></div>
 
-<!-- 모달 -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeByOverlay(event)">
-  <div class="modal" id="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <!-- 메타: 아바타 + 작성자 + 날짜 -->
-    <div class="modal-meta-row" id="modalMeta"></div>
-    <div class="modal-body-wrap">
-      <div class="modal-title" id="modalTitle"></div>
-      <div class="modal-text" id="modalText"></div>
-      <div class="modal-imgs" id="modalImgs"></div>
-      <div id="modalPdf"></div>
-    </div>
-  </div>
-</div>
-
 <script>
-// ═══════════════════════════════════════
-//  카테고리 설정
-// ═══════════════════════════════════════
 const CAT = {
   festival: { label: "월별 10대 축제", color: "#3d3dc8" },
   publish:  { label: "학회지·회보",    color: "#2e7d52" },
@@ -359,242 +90,73 @@ const CAT = {
   history:  { label: "학회 역사",      color: "#6b21a8" }
 };
 
-// ═══════════════════════════════════════
-//  포스트 데이터 (새 글은 맨 앞에 추가)
-//  cat: festival | publish | report | history
-// ═══════════════════════════════════════
 const POSTS = [
-  { id:1, title:"2025년 7월 10대 전국축제", date:"2025년 6월 20일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_e7ed1501c6ad40a2ae775018abe2816c~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_e7ed1501c6ad40a2ae775018abe2816c~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:24, comments:4,
-    body:`【 10대 축제 선정 기준 】
-
-2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_17b913d19a2343f882cf6679a5f85c05~mv2.jpg/v1/fill/w_125,h_170,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_17b913d19a2343f882cf6679a5f85c05~mv2.jpg","https://static.wixstatic.com/media/732936_99bc1afb2ac64ee19afa0aa6221035ca~mv2.jpg/v1/fill/w_115,h_163,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_99bc1afb2ac64ee19afa0aa6221035ca~mv2.jpg","https://static.wixstatic.com/media/732936_2f2b76d8e56745e0bd7269a074fd9e19~mv2.jpg/v1/fill/w_147,h_182,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_2f2b76d8e56745e0bd7269a074fd9e19~mv2.jpg","https://static.wixstatic.com/media/732936_b5f0cdb972bd4d03a17e0a2e82988e8d~mv2.jpg/v1/fill/w_147,h_207,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_b5f0cdb972bd4d03a17e0a2e82988e8d~mv2.jpg","https://static.wixstatic.com/media/732936_e7ed1501c6ad40a2ae775018abe2816c~mv2.png/v1/fill/w_49,h_69,al_c,q_85,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_e7ed1501c6ad40a2ae775018abe2816c~mv2.png"] },
-
-  { id:2, title:"2025년 6월 10대 전국축제", date:"2025년 5월 29일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_7c39bc5986e2471ba4a7a0dd5db401f5~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_7c39bc5986e2471ba4a7a0dd5db401f5~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:2, comments:0,
-    body:`【 10대 축제 선정 기준 】
-
-2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_7c39bc5986e2471ba4a7a0dd5db401f5~mv2.jpg/v1/fill/w_108,h_153,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_7c39bc5986e2471ba4a7a0dd5db401f5~mv2.jpg","https://static.wixstatic.com/media/732936_54cb5fd3d88542769c5229fed7b46a89~mv2.jpg/v1/fill/w_147,h_208,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_54cb5fd3d88542769c5229fed7b46a89~mv2.jpg","https://static.wixstatic.com/media/732936_b1b712099d8c496d8ed4b6620feb8d75~mv2.jpg/v1/fill/w_138,h_194,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_b1b712099d8c496d8ed4b6620feb8d75~mv2.jpg","https://static.wixstatic.com/media/732936_0142f722c2824d27b3a7d774ffe2ebd5~mv2.jpg/v1/fill/w_147,h_208,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_0142f722c2824d27b3a7d774ffe2ebd5~mv2.jpg"] },
-
-  { id:3, title:"2025년 5월 10대 전국축제", date:"2025년 4월 30일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_bfc3fc2dd62a412685966c4f1667a515~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_bfc3fc2dd62a412685966c4f1667a515~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:1, comments:0,
-    body:`【 10대 축제 선정 기준 】
-
-2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_bfc3fc2dd62a412685966c4f1667a515~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_bfc3fc2dd62a412685966c4f1667a515~mv2.webp"] },
-
-  { id:4, title:"2024년 공익법인등의무이행여부보고서", date:"2025년 4월 28일", read:"0분 분량", cat:"report",
-    thumb:null, excerpt:"2024년도 공익법인 등의 의무이행여부 보고서 (PDF 첨부)", views:0, comments:0,
-    body:"2024년도 공익법인 등의 의무이행여부 보고서입니다.\n\n본 보고서는 「공익법인의 설립·운영에 관한 법률」에 따라 제출되는 연간 의무이행 보고 자료입니다.", pdf:{name:"2024년 공익법인등의무이행여부보고서", url:"https://drive.google.com/file/d/1sVtZYM8kxyyyOwYrdgJ3O9kia-_6pOM8/view?usp=drive_link"}, images:[] },
-
-  { id:5, title:"2024년 공익법인 결산공시", date:"2025년 4월 28일", read:"0분 분량", cat:"report",
-    thumb:null, excerpt:"2024년도 (사)마이스홍보교육학회 공익법인 결산공시", views:0, comments:0,
-    body:"2024년도 (사)마이스홍보교육학회 공익법인 결산공시입니다.\n\n본 공시는 공익법인 법정 의무공시 사항입니다.", pdf:{name:"2024년 공익법인 결산공시", url:"https://drive.google.com/file/d/19H1fGj1pXRG1aj8cpEayNswDkg3jTvcx/view?usp=drive_link"}, images:[] },
-
-  { id:6, title:"2024년 기부금모금액 및 활용실적 명세서", date:"2025년 4월 28일", read:"0분 분량", cat:"report",
-    thumb:null, excerpt:"2024년도 기부금 모금액 및 활용실적 명세서 (공익법인 법정 의무공시)", views:0, comments:0,
-    body:"2024년도 (사)마이스홍보교육학회 기부금 모금액 및 활용실적 명세서입니다.\n\n본 명세서는 공익법인 법정 의무공시 사항입니다.", pdf:{name:"2024년 기부금모금액 및 활용실적 명세서", url:"https://drive.google.com/file/d/1rwlFOKIl6mEiCJGGYNBy_FICGoghEcNd/view?usp=drive_link"}, images:[] },
-
-  { id:7, title:"2025년 4월 10대 전국축제", date:"2025년 3월 31일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_2a336e3a061d4246b2c460468af302a6~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_2a336e3a061d4246b2c460468af302a6~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_2a336e3a061d4246b2c460468af302a6~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_2a336e3a061d4246b2c460468af302a6~mv2.webp"] },
-
-  { id:8, title:"2025년 3월 10대 전국축제", date:"2025년 2월 28일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_11c12672a4dc4d4eb6e307573097c60d~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_11c12672a4dc4d4eb6e307573097c60d~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_11c12672a4dc4d4eb6e307573097c60d~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_11c12672a4dc4d4eb6e307573097c60d~mv2.webp"] },
-
-  { id:9, title:"2025년 2월 10대 전국축제", date:"2025년 1월 31일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_b9459365408f4ff8b1b828774a776c5b~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_b9459365408f4ff8b1b828774a776c5b~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_b9459365408f4ff8b1b828774a776c5b~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_b9459365408f4ff8b1b828774a776c5b~mv2.webp"] },
-
-  { id:10, title:"2025년 1월 10대 전국축제", date:"2024년 12월 31일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_13a282e952e7467589b0098228ac6614~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_13a282e952e7467589b0098228ac6614~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_13a282e952e7467589b0098228ac6614~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_13a282e952e7467589b0098228ac6614~mv2.webp"] },
-
-  { id:11, title:"2024년 12월 10대 전국축제", date:"2024년 11월 28일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_8627edf213274fd2aef62004bd95f9ac~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_8627edf213274fd2aef62004bd95f9ac~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_8627edf213274fd2aef62004bd95f9ac~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_8627edf213274fd2aef62004bd95f9ac~mv2.webp"] },
-
-  { id:12, title:"2024년 11월 10대 전국축제", date:"2024년 11월 6일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_48a9c22195ad46348ed8f09c981cd860~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_48a9c22195ad46348ed8f09c981cd860~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_48a9c22195ad46348ed8f09c981cd860~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_48a9c22195ad46348ed8f09c981cd860~mv2.webp"] },
-
-  { id:13, title:"2024년 10월 10대 전국축제", date:"2024년 10월 4일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_279b28e03b1d4fff9cdcfcff356ce053~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_279b28e03b1d4fff9cdcfcff356ce053~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_279b28e03b1d4fff9cdcfcff356ce053~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_279b28e03b1d4fff9cdcfcff356ce053~mv2.webp"] },
-
-  { id:14, title:"2024년 9월 10대 전국축제", date:"2024년 8월 28일", read:"1분 분량", cat:"festival",
-    thumb:"https://static.wixstatic.com/media/732936_5333198bf7ac40a2b2bb043a47a5c657~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_5333198bf7ac40a2b2bb043a47a5c657~mv2.webp",
-    excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:["https://static.wixstatic.com/media/732936_5333198bf7ac40a2b2bb043a47a5c657~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_5333198bf7ac40a2b2bb043a47a5c657~mv2.webp"] },
-
-  { id:15, title:"2024년 8월 10대 전국축제", date:"2024년 8월 1일", read:"1분 분량", cat:"festival",
-    thumb:null, excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:[] },
-
-  { id:16, title:"2024년 7월 10대 전국축제", date:"2024년 7월 16일", read:"1분 분량", cat:"festival",
-    thumb:null, excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...",
-    views:0, comments:0,
-    body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`,
-    images:[] },
-
-  { id:17, title:"2024_마이스교육홍보학회 학회소식지 (겨울호·봄호)", date:"2024년 6월 19일", read:"0분 분량", cat:"publish",
-    thumb:null, excerpt:"ISSN 3022-3148 | 2024년 겨울호·봄호 학회소식지 발간",
-    views:0, comments:0,
-    body:"마이스교육홍보학회 학회소식지 (ISSN 3022-3148)\n\n2024년 겨울호·봄호 학회소식지가 발간되었습니다.\n\n본 소식지는 학회 활동, 각종 세미나, 축제 심사평가 내용 및 국내외 마이스 이벤트 행사 소식을 담고 있습니다.", pdfs:[{name:"2024 마이스홍보교육학회저널 겨울호", url:"https://drive.google.com/file/d/1AXPt9Az8CRH4E-mDKor_4MWtLEppik5L/view?usp=drive_link"},{name:"2024 마이스홍보교육학회저널 봄호", url:"https://drive.google.com/file/d/17wnKbmTxZqZyFrdHUFTuvG4eCLzbWYBf/view?usp=drive_link"}], images:[] },
-
-  { id:18, title:"2023년 기부금 모금액 및 활용실적명세서", date:"2024년 4월 30일", read:"0분 분량", cat:"report",
-    thumb:null, excerpt:"2023년도 기부금 모금액 및 활용실적 명세서 (공익법인 법정 의무공시)",
-    views:0, comments:0,
-    body:"2023년도 (사)마이스홍보교육학회 기부금 모금액 및 활용실적 명세서입니다.", pdf:{name:"2023년도 공개 보고서 기부금모금액 및 활용실적명세", url:"https://drive.google.com/file/d/1v9cGgkqc4ARuivmAmS47icTeJgKywB6o/view?usp=drive_link"}, images:[] },
-
-  { id:19, title:"2023년 출연재산보고서 등", date:"2024년 4월 30일", read:"0분 분량", cat:"report",
-    thumb:null, excerpt:"2023년도 출연재산보고서 및 관련 공시 서류",
-    views:0, comments:0,
-    body:"2023년도 (사)마이스홍보교육학회 출연재산보고서 및 관련 공시 서류입니다.", pdf:{name:"공익법인출연재산등에대한보고서 2023년 귀속", url:"https://drive.google.com/file/d/1wM17naoXUtr2rrBF65_o4L_1--QBasfa/view?usp=drive_link"}, images:[] },
-
-  { id:20, title:"2023년 결산공시", date:"2024년 4월 30일", read:"0분 분량", cat:"report",
-    thumb:null, excerpt:"2023년도 (사)마이스홍보교육학회 공익법인 결산공시",
-    views:0, comments:0,
-    body:"2023년도 (사)마이스홍보교육학회 공익법인 결산공시입니다.", pdf:{name:"결산서류 공시 2023귀속 최종", url:"https://drive.google.com/file/d/1S9kFwY6WvjKRIU0FoCp1Pgo8OafoLw53/view?usp=drive_link"}, images:[] },
-
-  { id:21, title:"2023_마이스교육홍보학회 학회소식지 (봄·여름·가을호)", date:"2023년 11월 24일", read:"0분 분량", cat:"publish",
-    thumb:null, excerpt:"ISSN 3022-3148 | 2023년 봄·여름·가을호 학회소식지 발간",
-    views:0, comments:0,
-    body:"마이스교육홍보학회 학회소식지 (ISSN 3022-3148)\n\n2023년 봄·여름·가을호 학회소식지가 발간되었습니다.", pdfs:[{name:"마이스홍보교육학회 봄호 (온라인용)", url:"https://drive.google.com/file/d/13-zQkxMulLlposOn3nKSBVb67S1rrkuy/view?usp=drive_link"},{name:"홍보교육학회 여름호 (온라인용)", url:"https://drive.google.com/file/d/1lGVG5DVk_-U_CK0_p-s0F29kINohy3K0/view?usp=drive_link"},{name:"홍보교육학회 가을호 (온라인용)", url:"https://drive.google.com/file/d/1PNcMEAYjqFXLwyXBoQw7v4nuWH02BeO9/view?usp=drive_link"}], images:[] },
-
-  { id:22, title:"2022년 기부금모금액활용실적명세서", date:"2023년 4월 27일", read:"1분 분량", cat:"report",
-    thumb:null, excerpt:"2022년도 기부금모금액활용실적명세서",
-    views:0, comments:0,
-    body:"2022년도 기부금모금액활용실적명세서입니다.", pdf:{name:"공개 보고서 기부금모금액 및 활용실적명세 (2022)", url:"https://drive.google.com/file/d/1ffVVLNaukTvGiem4K19Myx96CIHTpkuK/view?usp=drive_link"}, images:[] },
-
-  { id:23, title:"2022년 공익법인결산공시", date:"2023년 4월 27일", read:"1분 분량", cat:"report",
-    thumb:null, excerpt:"2022년도 공익법인결산공시",
-    views:0, comments:0,
-    body:"2022년도 공익법인결산공시입니다.", pdf:{name:"결산서류 등 공시 (2022)", url:"https://drive.google.com/file/d/1qAT0mZxJuG615SF6jRJlo2W4eB8Q297Y/view?usp=drive_link"}, images:[] },
-
-  { id:24, title:"2021년 기부금모금액활용실적명세서", date:"2023년 4월 27일", read:"1분 분량", cat:"report",
-    thumb:null, excerpt:"2021년도 기부금모금액활용실적명세서",
-    views:0, comments:0,
-    body:"2021년도 기부금모금액활용실적명세서입니다.", pdf:{name:"21년 기부금모금액 및 활용실적명세서", url:"https://drive.google.com/file/d/1EzpwE6TefmIAHYRQxckoWkcqKq7u0LYv/view?usp=drive_link"}, images:[] },
-
-  { id:25, title:"2021년 공익법인결산공시", date:"2023년 4월 27일", read:"1분 분량", cat:"report",
-    thumb:null, excerpt:"2021년도 공익법인결산공시",
-    views:0, comments:0,
-    body:"2021년도 공익법인결산공시입니다.", pdf:{name:"21년 결산공시", url:"https://drive.google.com/file/d/1pRaVMbrpjkv_08P4l1DAJZB55UsyxOXU/view?usp=drive_link"}, images:[] },
-
-  { id:26, title:"2020년 기부금모금액활용실적명세서", date:"2023년 4월 27일", read:"1분 분량", cat:"report",
-    thumb:null, excerpt:"2020년도 기부금모금액활용실적명세서 결과",
-    views:0, comments:0,
-    body:"2020년도 기부금모금액활용실적명세서 결과입니다.", pdf:{name:"공익법인 결산서류 등의 공시 간편서식 제출 (2020년)", url:"https://drive.google.com/file/d/1hXrd6kuvRGbolvF797X2p5O-EmNrZu6C/view?usp=drive_link"}, images:[] },
-
-  { id:27, title:"2020년 공익법인결산공시", date:"2023년 4월 27일", read:"1분 분량", cat:"report",
-    thumb:null, excerpt:"2020년도 마이스홍보교육학회 결산서류 공시",
-    views:0, comments:0,
-    body:"2020년도 마이스홍보교육학회의 결산서류 공시입니다.", pdf:{name:"사단법인 마이스홍보교육학회 공익법인 출연재산 등에 대한 보고서", url:"https://drive.google.com/file/d/1H__uQohanjoqfcXvWCJez-V1LrohWlw2/view?usp=drive_link"}, images:[] },
-
-  { id:28, title:"강남 도심공항터미널 관련 / 학회 소식", date:"2022년 8월 11일", read:"1분 분량", cat:"history",
-    thumb:"https://static.wixstatic.com/media/732936_afa6fd1c6f8b4a0c948d9664b49d061e~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_afa6fd1c6f8b4a0c948d9664b49d061e~mv2.jpg",
-    excerpt:"2019년도 마이스홍보교육학회 법인 설립 허가 관련 소식",
-    views:0, comments:0,
-    body:"2019년도 마이스홍보교육학회 법인 설립 허가 관련 소식입니다.\n강남 도심공항터미널 코로나 여파 관련 마이스 산업 동향 및 학회 소식을 담고 있습니다.",
-    images:["https://static.wixstatic.com/media/732936_afa6fd1c6f8b4a0c948d9664b49d061e~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_afa6fd1c6f8b4a0c948d9664b49d061e~mv2.jpg"] },
-
-  { id:29, title:"마이스홍보교육학회 법인설립", date:"2022년 7월 20일", read:"1분 분량", cat:"history",
-    thumb:"https://static.wixstatic.com/media/732936_780ac4aa75a8491ab94e1f9e5ed5c713~mv2.webp/v1/fill/w_322,h_242,al_c,q_90,enc_avif,quality_auto/732936_780ac4aa75a8491ab94e1f9e5ed5c713~mv2.webp",
-    excerpt:"2019년도 마이스홍보교육학회 법인 설립 허가 — 학회의 출발점",
-    views:0, comments:0,
-    body:"2019년도 마이스홍보교육학회 법인 설립 허가\n\n(사)마이스홍보교육학회는 MICE홍보교육과 관련된 제반 학술연구 및 MICE산업 발전과 MICE 관련 청년 취업 문제 해결을 위한 사회 공익 활동을 수행하는 사단법인으로 2019년 설립 허가를 받았습니다.\n\n법인 등록번호: 110321-0051886",
-    images:["https://static.wixstatic.com/media/732936_780ac4aa75a8491ab94e1f9e5ed5c713~mv2.webp/v1/fill/w_322,h_242,al_c,q_90,enc_avif,quality_auto/732936_780ac4aa75a8491ab94e1f9e5ed5c713~mv2.webp","https://static.wixstatic.com/media/732936_72b421974e6747bdbbff2f87a5d908ce~mv2.jpg/v1/fill/w_128,h_172,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_72b421974e6747bdbbff2f87a5d908ce~mv2.jpg"] }
+  { id:1, title:"2025년 7월 10대 전국축제", date:"2025년 6월 20일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_e7ed1501c6ad40a2ae775018abe2816c~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_e7ed1501c6ad40a2ae775018abe2816c~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:24, comments:4 },
+  { id:2, title:"2025년 6월 10대 전국축제", date:"2025년 5월 29일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_7c39bc5986e2471ba4a7a0dd5db401f5~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_7c39bc5986e2471ba4a7a0dd5db401f5~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:2, comments:0 },
+  { id:3, title:"2025년 5월 10대 전국축제", date:"2025년 4월 30일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_bfc3fc2dd62a412685966c4f1667a515~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_bfc3fc2dd62a412685966c4f1667a515~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:1, comments:0 },
+  { id:4, title:"2024년 공익법인등의무이행여부보고서", date:"2025년 4월 28일", read:"0분 분량", cat:"report", thumb:null, excerpt:"2024년도 공익법인 등의 의무이행여부 보고서 (PDF 첨부)", views:0, comments:0 },
+  { id:5, title:"2024년 공익법인 결산공시", date:"2025년 4월 28일", read:"0분 분량", cat:"report", thumb:null, excerpt:"2024년도 (사)마이스홍보교육학회 공익법인 결산공시", views:0, comments:0 },
+  { id:6, title:"2024년 기부금모금액 및 활용실적 명세서", date:"2025년 4월 28일", read:"0분 분량", cat:"report", thumb:null, excerpt:"2024년도 기부금 모금액 및 활용실적 명세서 (공익법인 법정 의무공시)", views:0, comments:0 },
+  { id:7, title:"2025년 4월 10대 전국축제", date:"2025년 3월 31일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_2a336e3a061d4246b2c460468af302a6~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_2a336e3a061d4246b2c460468af302a6~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:8, title:"2025년 3월 10대 전국축제", date:"2025년 2월 28일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_11c12672a4dc4d4eb6e307573097c60d~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_11c12672a4dc4d4eb6e307573097c60d~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:9, title:"2025년 2월 10대 전국축제", date:"2025년 1월 31일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_b9459365408f4ff8b1b828774a776c5b~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_b9459365408f4ff8b1b828774a776c5b~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:10, title:"2025년 1월 10대 전국축제", date:"2024년 12월 31일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_13a282e952e7467589b0098228ac6614~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_13a282e952e7467589b0098228ac6614~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:11, title:"2024년 12월 10대 전국축제", date:"2024년 11월 28일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_8627edf213274fd2aef62004bd95f9ac~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_8627edf213274fd2aef62004bd95f9ac~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:12, title:"2024년 11월 10대 전국축제", date:"2024년 11월 6일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_48a9c22195ad46348ed8f09c981cd860~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_48a9c22195ad46348ed8f09c981cd860~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:13, title:"2024년 10월 10대 전국축제", date:"2024년 10월 4일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_279b28e03b1d4fff9cdcfcff356ce053~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_279b28e03b1d4fff9cdcfcff356ce053~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:14, title:"2024년 9월 10대 전국축제", date:"2024년 8월 28일", read:"1분 분량", cat:"festival", thumb:"https://static.wixstatic.com/media/732936_5333198bf7ac40a2b2bb043a47a5c657~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_5333198bf7ac40a2b2bb043a47a5c657~mv2.webp", excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:15, title:"2024년 8월 10대 전국축제", date:"2024년 8월 1일", read:"1분 분량", cat:"festival", thumb:null, excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:16, title:"2024년 7월 10대 전국축제", date:"2024년 7월 16일", read:"1분 분량", cat:"festival", thumb:null, excerpt:"10대 축제 선정 기준 2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월...", views:0, comments:0 },
+  { id:17, title:"2024_마이스교육홍보학회 학회소식지 (겨울호·봄호)", date:"2024년 6월 19일", read:"0분 분량", cat:"publish", thumb:null, excerpt:"ISSN 3022-3148 | 2024년 겨울호·봄호 학회소식지 발간", views:0, comments:0 },
+  { id:18, title:"2023년 기부금 모금액 및 활용실적명세서", date:"2024년 4월 30일", read:"0분 분량", cat:"report", thumb:null, excerpt:"2023년도 기부금 모금액 및 활용실적 명세서 (공익법인 법정 의무공시)", views:0, comments:0 },
+  { id:19, title:"2023년 출연재산보고서 등", date:"2024년 4월 30일", read:"0분 분량", cat:"report", thumb:null, excerpt:"2023년도 출연재산보고서 및 관련 공시 서류", views:0, comments:0 },
+  { id:20, title:"2023년 결산공시", date:"2024년 4월 30일", read:"0분 분량", cat:"report", thumb:null, excerpt:"2023년도 (사)마이스홍보교육학회 공익법인 결산공시", views:0, comments:0 },
+  { id:21, title:"2023_마이스교육홍보학회 학회소식지 (봄·여름·가을호)", date:"2023년 11월 24일", read:"0분 분량", cat:"publish", thumb:null, excerpt:"ISSN 3022-3148 | 2023년 봄·여름·가을호 학회소식지 발간", views:0, comments:0 },
+  { id:22, title:"2022년 기부금모금액활용실적명세서", date:"2023년 4월 27일", read:"1분 분량", cat:"report", thumb:null, excerpt:"2022년도 기부금모금액활용실적명세서", views:0, comments:0 },
+  { id:23, title:"2022년 공익법인결산공시", date:"2023년 4월 27일", read:"1분 분량", cat:"report", thumb:null, excerpt:"2022년도 공익법인결산공시", views:0, comments:0 },
+  { id:24, title:"2021년 기부금모금액활용실적명세서", date:"2023년 4월 27일", read:"1분 분량", cat:"report", thumb:null, excerpt:"2021년도 기부금모금액활용실적명세서", views:0, comments:0 },
+  { id:25, title:"2021년 공익법인결산공시", date:"2023년 4월 27일", read:"1분 분량", cat:"report", thumb:null, excerpt:"2021년도 공익법인결산공시", views:0, comments:0 },
+  { id:26, title:"2020년 기부금모금액활용실적명세서", date:"2023년 4월 27일", read:"1분 분량", cat:"report", thumb:null, excerpt:"2020년도 기부금모금액활용실적명세서 결과", views:0, comments:0 },
+  { id:27, title:"2020년 공익법인결산공시", date:"2023년 4월 27일", read:"1분 분량", cat:"report", thumb:null, excerpt:"2020년도 마이스홍보교육학회 결산서류 공시", views:0, comments:0 },
+  { id:28, title:"강남 도심공항터미널 관련 / 학회 소식", date:"2022년 8월 11일", read:"1분 분량", cat:"history", thumb:"https://static.wixstatic.com/media/732936_afa6fd1c6f8b4a0c948d9664b49d061e~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_afa6fd1c6f8b4a0c948d9664b49d061e~mv2.jpg", excerpt:"2019년도 마이스홍보교육학회 법인 설립 허가 관련 소식", views:0, comments:0 },
+  { id:29, title:"마이스홍보교육학회 법인설립", date:"2022년 7월 20일", read:"1분 분량", cat:"history", thumb:"https://static.wixstatic.com/media/732936_780ac4aa75a8491ab94e1f9e5ed5c713~mv2.webp/v1/fill/w_322,h_242,al_c,q_90,enc_avif,quality_auto/732936_780ac4aa75a8491ab94e1f9e5ed5c713~mv2.webp", excerpt:"2019년도 마이스홍보교육학회 법인 설립 허가 — 학회의 출발점", views:0, comments:0 }
 ];
 
-// ═══════════════════════════════════════
-//  상태
-// ═══════════════════════════════════════
 const PER = 5;
-let curCat = 'all', curPage = 1, filtered = [...POSTS], searchQ = '';
+let curCat = 'all', curPage = 1, filtered = [...POSTS];
 const liked = new Set();
 
-function getFiltered(cat, q) {
-  return POSTS.filter(p =>
-    (cat === 'all' || p.cat === cat) &&
-    (!q || p.title.includes(q) || p.excerpt.includes(q))
-  );
-}
+function getFiltered(cat) { return cat === 'all' ? [...POSTS] : POSTS.filter(p => p.cat === cat); }
 
-// ═══════════════════════════════════════
-//  렌더
-// ═══════════════════════════════════════
 function render() {
-  filtered = getFiltered(curCat, searchQ);
+  filtered = getFiltered(curCat);
   const list = document.getElementById('postList');
   const slice = filtered.slice((curPage-1)*PER, curPage*PER);
-
-  if (!slice.length) {
-    list.innerHTML = '<div style="padding:60px 0;text-align:center;color:#aaa;font-size:0.9rem;">검색 결과가 없습니다.</div>';
-  } else {
-    list.innerHTML = slice.map(p => {
-      const cfg = CAT[p.cat];
-      const thumbHtml = p.thumb
-        ? `<img src="${p.thumb}" alt="${p.title}" loading="lazy">`
-        : `<span style="font-size:2rem">${{festival:'🏮',publish:'📖',report:'📋',history:'🏛'}[p.cat]}</span>`;
-      const thumbCls = p.thumb ? 'post-thumb' : 'post-thumb no-img';
-      return `
-      <div class="post-item" onclick="openPost(${p.id})">
-        <div class="${thumbCls}">${thumbHtml}</div>
-        <div class="post-info">
-          <div class="post-meta-top">
-            <div class="post-avatar">sn</div>
-            <span class="post-author">snsmedia</span>
-            <span class="post-dot">·</span>
-            <span class="post-date-read">${p.date} · ${p.read}</span>
-            <button class="post-more-btn" onclick="event.stopPropagation()">⋯</button>
-          </div>
-          <div class="post-title">${p.title}</div>
-          <div class="post-excerpt">${p.excerpt}</div>
-          <div class="post-footer">
-            <span class="post-stats">조회수 ${p.views}회 · 댓글 ${p.comments}개</span>
-            <span class="post-cat-badge" style="background:${cfg.color}">${cfg.label}</span>
-            <button class="post-heart${liked.has(p.id)?' liked':''}"
-              onclick="event.stopPropagation();toggleHeart(${p.id},this)">♥</button>
-          </div>
+  const icons = {festival:'🏮', publish:'📖', report:'📋', history:'🏛'};
+  list.innerHTML = slice.map(p => {
+    const cfg = CAT[p.cat];
+    const thumbHtml = p.thumb ? `<img src="${p.thumb}" alt="${p.title}" loading="lazy">` : `<span>${icons[p.cat]}</span>`;
+    return `
+    <a class="post-item" href="post.html?id=${p.id}" target="_blank">
+      <div class="post-thumb">${thumbHtml}</div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <div class="post-avatar">sn</div>
+          <span class="post-author">snsmedia</span>
+          <span class="post-dot">·</span>
+          <span class="post-date-read">${p.date} · ${p.read}</span>
+          <button class="post-more-btn" onclick="event.preventDefault();event.stopPropagation()">⋯</button>
         </div>
-      </div>`;
-    }).join('');
-  }
+        <div class="post-title">${p.title}</div>
+        <div class="post-excerpt">${p.excerpt}</div>
+        <div class="post-footer">
+          <span class="post-stats">조회수 ${p.views}회 · 댓글 ${p.comments}개</span>
+          <span class="post-cat-badge" style="background:${cfg.color}">${cfg.label}</span>
+          <button class="post-heart${liked.has(p.id)?' liked':''}" onclick="event.preventDefault();event.stopPropagation();toggleHeart(${p.id},this)">♥</button>
+        </div>
+      </div>
+    </a>`;
+  }).join('');
   renderPagination();
 }
 
@@ -604,89 +166,22 @@ function renderPagination() {
   if (total <= 1) { pg.innerHTML = ''; return; }
   let h = '';
   if (curPage > 1) h += `<button class="page-btn" onclick="goPage(${curPage-1})">‹</button>`;
-  for (let i = 1; i <= total; i++)
-    h += `<button class="page-btn${i===curPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
+  for (let i = 1; i <= total; i++) h += `<button class="page-btn${i===curPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
   if (curPage < total) h += `<button class="page-btn" onclick="goPage(${curPage+1})">›</button>`;
   pg.innerHTML = h;
 }
 
 function goPage(n) { curPage = n; render(); window.scrollTo({top:0,behavior:'smooth'}); }
-
 function filterPosts(cat, btn) {
   curCat = cat; curPage = 1;
   document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   render();
 }
-
-function handleSearch(v) { searchQ = v.trim(); curPage = 1; render(); }
-
 function toggleHeart(id, btn) {
   if (liked.has(id)) { liked.delete(id); btn.classList.remove('liked'); }
   else { liked.add(id); btn.classList.add('liked'); }
 }
-
-// ═══════════════════════════════════════
-//  모달
-// ═══════════════════════════════════════
-function openPost(id) {
-  const p = POSTS.find(x => x.id === id);
-  if (!p) return;
-
-  // ── 메타 (아바타 + 작성자 + 날짜 · 읽기 시간) ──
-  document.getElementById('modalMeta').innerHTML = `
-    <div class="modal-avatar-txt">sn</div>
-    <span class="modal-author">snsmedia</span>
-    <span class="modal-dot">·</span>
-    <span class="modal-date-txt">${p.date} · ${p.read}</span>
-    <button class="modal-more">⋯</button>`;
-
-  // ── 제목 (좌측 정렬) ──
-  document.getElementById('modalTitle').textContent = p.title;
-
-  // ── 본문: 첫 줄이 【...】이면 소제목으로 분리 ──
-  const lines = p.body.split('\n');
-  let headingHtml = '';
-  let bodyText = p.body;
-  if (lines[0].startsWith('【') && lines[0].endsWith('】')) {
-    headingHtml = `<div class="modal-section-heading">${lines[0].replace(/【|】/g,'').trim()}</div>`;
-    bodyText = lines.slice(1).join('\n').trim();
-  }
-  document.getElementById('modalText').innerHTML =
-    headingHtml + `<div class="modal-text">${bodyText.replace(/\n/g,'<br>')}</div>`;
-
-  // ── 이미지 (세로 중앙 정렬) ──
-  document.getElementById('modalImgs').innerHTML = (p.images||[]).map(src =>
-    `<img src="${src}" alt="첨부이미지" loading="lazy">`).join('');
-
-  // ── PDF / 학회지 링크 ──
-  let pdfHtml = '';
-  if (p.pdf) {
-    pdfHtml = `<a class="pdf-box" href="${p.pdf.url}" target="_blank" rel="noopener">
-      <span class="ico">📄</span>
-      <div><strong>${p.pdf.name}</strong><br><span style="color:var(--primary);font-size:0.78rem;">Google Drive에서 열기 →</span></div>
-    </a>`;
-  } else if (p.pdfs && p.pdfs.length) {
-    pdfHtml = p.pdfs.map(f => `
-      <a class="pdf-box" href="${f.url}" target="_blank" rel="noopener">
-        <span class="ico">📄</span>
-        <div><strong>${f.name}</strong><br><span style="color:var(--primary);font-size:0.78rem;">Google Drive에서 열기 →</span></div>
-      </a>`).join('');
-  }
-  document.getElementById('modalPdf').innerHTML = pdfHtml;
-
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  window.scrollTo({top: 0, behavior: 'instant'});
-}
-function closeByOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => { if (e.key==='Escape') closeModal(); });
-
-// 초기 렌더
 render();
 </script>
 </body>
