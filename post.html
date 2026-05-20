@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학회 소식 | (사)마이스홍보교육학회</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #3d3dc8;
+    --bg: #f8f8f8;
+    --text: #1a1a1a;
+    --text-mid: #444;
+    --text-light: #999;
+    --border: #e8e8e8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); }
+
+  /* 상단 바 */
+  .top-bar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.82rem; color: var(--primary);
+    text-decoration: none; font-weight: 500;
+    padding: 5px 12px; border-radius: 4px;
+    border: 1px solid var(--primary);
+    transition: background 0.15s;
+  }
+  .back-btn:hover { background: #f0f0ff; }
+  .top-bar-title { font-size: 0.82rem; color: var(--text-light); }
+
+  /* 본문 카드 */
+  .post-wrap {
+    max-width: 720px;
+    margin: 40px auto 80px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+
+  /* 메타 */
+  .post-meta {
+    display: flex; align-items: center; gap: 8px;
+    padding: 24px 36px 0;
+    flex-wrap: wrap;
+  }
+  .post-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; color: #fff; font-weight: 700; flex-shrink: 0;
+  }
+  .post-author { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+  .post-dot { color: var(--text-light); }
+  .post-date { font-size: 0.78rem; color: var(--text-light); }
+  .post-more { margin-left: auto; background: none; border: none; color: var(--text-light); font-size: 1rem; cursor: pointer; }
+  .post-cat-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 9px; border-radius: 3px; color: #fff; }
+
+  /* 제목 */
+  .post-title {
+    font-size: 1.75rem; font-weight: 700;
+    color: var(--text); line-height: 1.35;
+    letter-spacing: -0.025em;
+    padding: 20px 36px 0;
+  }
+
+  /* 구분선 */
+  .post-divider { border: none; border-top: 1px solid var(--border); margin: 24px 36px 0; }
+
+  /* 본문 */
+  .post-body { padding: 24px 36px 0; }
+  .post-section-heading {
+    font-size: 1rem; font-weight: 600;
+    color: var(--text); margin-bottom: 14px;
+    text-align: center;
+  }
+  .post-text {
+    font-size: 0.9rem; line-height: 2.0;
+    color: var(--text-mid); text-align: center;
+    white-space: pre-wrap;
+  }
+
+  /* 이미지 */
+  .post-images {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 16px;
+    padding: 24px 36px 0;
+  }
+  .post-images img {
+    max-width: 100%; border-radius: 4px;
+    object-fit: contain;
+  }
+
+  /* PDF 링크 */
+  .post-pdfs { padding: 20px 36px 36px; display: flex; flex-direction: column; gap: 10px; }
+  .pdf-link {
+    display: flex; align-items: center; gap: 14px;
+    background: #f6f6fb; border: 1px solid #e0e0f0;
+    border-radius: 4px; padding: 14px 18px;
+    font-size: 0.82rem; color: var(--text-mid);
+    text-decoration: none; transition: background 0.15s, border-color 0.15s;
+  }
+  .pdf-link:hover { background: #eeeeff; border-color: var(--primary); }
+  .pdf-link .ico { font-size: 1.6rem; flex-shrink: 0; }
+  .pdf-link strong { display: block; color: var(--text); margin-bottom: 2px; }
+  .pdf-link span { color: var(--primary); font-size: 0.76rem; }
+
+  /* 없는 글 */
+  .not-found { text-align: center; padding: 80px 20px; color: var(--text-light); font-size: 0.9rem; }
+
+  @media (max-width: 700px) {
+    .post-wrap { margin: 16px; }
+    .post-title { font-size: 1.3rem; padding: 16px 20px 0; }
+    .post-meta { padding: 18px 20px 0; }
+    .post-body { padding: 18px 20px 0; }
+    .post-images { padding: 18px 20px 0; }
+    .post-pdfs { padding: 16px 20px 28px; }
+    .post-divider { margin: 18px 20px 0; }
+    .top-bar { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a class="back-btn" href="javascript:window.close()">← 목록으로</a>
+  <span class="top-bar-title">(사)마이스홍보교육학회 학회 소식</span>
+</div>
+
+<div id="content"></div>
+
+<script>
+const CAT = {
+  festival: { label: "월별 10대 축제", color: "#3d3dc8" },
+  publish:  { label: "학회지·회보",    color: "#2e7d52" },
+  report:   { label: "공익법인 공시",  color: "#b45309" },
+  history:  { label: "학회 역사",      color: "#6b21a8" }
+};
+
+const POSTS = [
+  { id:1, title:"2025년 7월 10대 전국축제", date:"2025년 6월 20일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_17b913d19a2343f882cf6679a5f85c05~mv2.jpg/v1/fill/w_125,h_170,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_17b913d19a2343f882cf6679a5f85c05~mv2.jpg","https://static.wixstatic.com/media/732936_99bc1afb2ac64ee19afa0aa6221035ca~mv2.jpg/v1/fill/w_115,h_163,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_99bc1afb2ac64ee19afa0aa6221035ca~mv2.jpg","https://static.wixstatic.com/media/732936_2f2b76d8e56745e0bd7269a074fd9e19~mv2.jpg/v1/fill/w_147,h_182,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_2f2b76d8e56745e0bd7269a074fd9e19~mv2.jpg","https://static.wixstatic.com/media/732936_b5f0cdb972bd4d03a17e0a2e82988e8d~mv2.jpg/v1/fill/w_147,h_207,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_b5f0cdb972bd4d03a17e0a2e82988e8d~mv2.jpg","https://static.wixstatic.com/media/732936_e7ed1501c6ad40a2ae775018abe2816c~mv2.png/v1/fill/w_49,h_69,al_c,q_85,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_e7ed1501c6ad40a2ae775018abe2816c~mv2.png"] },
+  { id:2, title:"2025년 6월 10대 전국축제", date:"2025년 5월 29일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_7c39bc5986e2471ba4a7a0dd5db401f5~mv2.jpg/v1/fill/w_108,h_153,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_7c39bc5986e2471ba4a7a0dd5db401f5~mv2.jpg","https://static.wixstatic.com/media/732936_54cb5fd3d88542769c5229fed7b46a89~mv2.jpg/v1/fill/w_147,h_208,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_54cb5fd3d88542769c5229fed7b46a89~mv2.jpg","https://static.wixstatic.com/media/732936_b1b712099d8c496d8ed4b6620feb8d75~mv2.jpg/v1/fill/w_138,h_194,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_b1b712099d8c496d8ed4b6620feb8d75~mv2.jpg","https://static.wixstatic.com/media/732936_0142f722c2824d27b3a7d774ffe2ebd5~mv2.jpg/v1/fill/w_147,h_208,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_0142f722c2824d27b3a7d774ffe2ebd5~mv2.jpg"] },
+  { id:3, title:"2025년 5월 10대 전국축제", date:"2025년 4월 30일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_bfc3fc2dd62a412685966c4f1667a515~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_bfc3fc2dd62a412685966c4f1667a515~mv2.webp"] },
+  { id:4, title:"2024년 공익법인등의무이행여부보고서", date:"2025년 4월 28일", read:"0분 분량", cat:"report", body:"2024년도 공익법인 등의 의무이행여부 보고서입니다.\n\n본 보고서는 「공익법인의 설립·운영에 관한 법률」에 따라 제출되는 연간 의무이행 보고 자료입니다.", pdf:{name:"2024년 공익법인등의무이행여부보고서", url:"https://drive.google.com/file/d/1sVtZYM8kxyyyOwYrdgJ3O9kia-_6pOM8/view?usp=drive_link"}, images:[] },
+  { id:5, title:"2024년 공익법인 결산공시", date:"2025년 4월 28일", read:"0분 분량", cat:"report", body:"2024년도 (사)마이스홍보교육학회 공익법인 결산공시입니다.\n\n본 공시는 공익법인 법정 의무공시 사항입니다.", pdf:{name:"2024년 공익법인 결산공시", url:"https://drive.google.com/file/d/19H1fGj1pXRG1aj8cpEayNswDkg3jTvcx/view?usp=drive_link"}, images:[] },
+  { id:6, title:"2024년 기부금모금액 및 활용실적 명세서", date:"2025년 4월 28일", read:"0분 분량", cat:"report", body:"2024년도 (사)마이스홍보교육학회 기부금 모금액 및 활용실적 명세서입니다.\n\n본 명세서는 공익법인 법정 의무공시 사항입니다.", pdf:{name:"2024년 기부금모금액 및 활용실적 명세서", url:"https://drive.google.com/file/d/1rwlFOKIl6mEiCJGGYNBy_FICGoghEcNd/view?usp=drive_link"}, images:[] },
+  { id:7, title:"2025년 4월 10대 전국축제", date:"2025년 3월 31일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_2a336e3a061d4246b2c460468af302a6~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_2a336e3a061d4246b2c460468af302a6~mv2.webp"] },
+  { id:8, title:"2025년 3월 10대 전국축제", date:"2025년 2월 28일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_11c12672a4dc4d4eb6e307573097c60d~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_11c12672a4dc4d4eb6e307573097c60d~mv2.webp"] },
+  { id:9, title:"2025년 2월 10대 전국축제", date:"2025년 1월 31일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_b9459365408f4ff8b1b828774a776c5b~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_b9459365408f4ff8b1b828774a776c5b~mv2.webp"] },
+  { id:10, title:"2025년 1월 10대 전국축제", date:"2024년 12월 31일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 6년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_13a282e952e7467589b0098228ac6614~mv2.png/v1/fill/w_322,h_242,fp_0.50_0.50,q_95,enc_avif,quality_auto/732936_13a282e952e7467589b0098228ac6614~mv2.webp"] },
+  { id:11, title:"2024년 12월 10대 전국축제", date:"2024년 11월 28일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_8627edf213274fd2aef62004bd95f9ac~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_8627edf213274fd2aef62004bd95f9ac~mv2.webp"] },
+  { id:12, title:"2024년 11월 10대 전국축제", date:"2024년 11월 6일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_48a9c22195ad46348ed8f09c981cd860~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_48a9c22195ad46348ed8f09c981cd860~mv2.webp"] },
+  { id:13, title:"2024년 10월 10대 전국축제", date:"2024년 10월 4일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_279b28e03b1d4fff9cdcfcff356ce053~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_279b28e03b1d4fff9cdcfcff356ce053~mv2.webp"] },
+  { id:14, title:"2024년 9월 10대 전국축제", date:"2024년 8월 28일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:["https://static.wixstatic.com/media/732936_5333198bf7ac40a2b2bb043a47a5c657~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_5333198bf7ac40a2b2bb043a47a5c657~mv2.webp"] },
+  { id:15, title:"2024년 8월 10대 전국축제", date:"2024년 8월 1일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:[] },
+  { id:16, title:"2024년 7월 10대 전국축제", date:"2024년 7월 16일", read:"1분 분량", cat:"festival", body:`【 10대 축제 선정 기준 】\n\n2020년부터 5년 동안 네이버 뉴스, 블로그, 카페 등에서 전국축제별 관계키워드를 빅데이터 워드 프리퀀시부터 워드 클라우드 컴퓨팅으로 분석한 후 MICE 홍보교육학회의 평가위원회에서 종합적 평판심의 결과를 기준하며 매월 대한민국 10대 축제를 선정함`, images:[] },
+  { id:17, title:"2024_마이스교육홍보학회 학회소식지 (겨울호·봄호)", date:"2024년 6월 19일", read:"0분 분량", cat:"publish", body:"마이스교육홍보학회 학회소식지 (ISSN 3022-3148)\n\n2024년 겨울호·봄호 학회소식지가 발간되었습니다.\n\n본 소식지는 학회 활동, 각종 세미나, 축제 심사평가 내용 및 국내외 마이스 이벤트 행사 소식을 담고 있습니다.", pdfs:[{name:"2024 마이스홍보교육학회저널 겨울호", url:"https://drive.google.com/file/d/1AXPt9Az8CRH4E-mDKor_4MWtLEppik5L/view?usp=drive_link"},{name:"2024 마이스홍보교육학회저널 봄호", url:"https://drive.google.com/file/d/17wnKbmTxZqZyFrdHUFTuvG4eCLzbWYBf/view?usp=drive_link"}], images:[] },
+  { id:18, title:"2023년 기부금 모금액 및 활용실적명세서", date:"2024년 4월 30일", read:"0분 분량", cat:"report", body:"2023년도 (사)마이스홍보교육학회 기부금 모금액 및 활용실적 명세서입니다.", pdf:{name:"2023년도 공개 보고서 기부금모금액 및 활용실적명세", url:"https://drive.google.com/file/d/1v9cGgkqc4ARuivmAmS47icTeJgKywB6o/view?usp=drive_link"}, images:[] },
+  { id:19, title:"2023년 출연재산보고서 등", date:"2024년 4월 30일", read:"0분 분량", cat:"report", body:"2023년도 (사)마이스홍보교육학회 출연재산보고서 및 관련 공시 서류입니다.", pdf:{name:"공익법인출연재산등에대한보고서 2023년 귀속", url:"https://drive.google.com/file/d/1wM17naoXUtr2rrBF65_o4L_1--QBasfa/view?usp=drive_link"}, images:[] },
+  { id:20, title:"2023년 결산공시", date:"2024년 4월 30일", read:"0분 분량", cat:"report", body:"2023년도 (사)마이스홍보교육학회 공익법인 결산공시입니다.", pdf:{name:"결산서류 공시 2023귀속 최종", url:"https://drive.google.com/file/d/1S9kFwY6WvjKRIU0FoCp1Pgo8OafoLw53/view?usp=drive_link"}, images:[] },
+  { id:21, title:"2023_마이스교육홍보학회 학회소식지 (봄·여름·가을호)", date:"2023년 11월 24일", read:"0분 분량", cat:"publish", body:"마이스교육홍보학회 학회소식지 (ISSN 3022-3148)\n\n2023년 봄·여름·가을호 학회소식지가 발간되었습니다.", pdfs:[{name:"마이스홍보교육학회 봄호 (온라인용)", url:"https://drive.google.com/file/d/13-zQkxMulLlposOn3nKSBVb67S1rrkuy/view?usp=drive_link"},{name:"홍보교육학회 여름호 (온라인용)", url:"https://drive.google.com/file/d/1lGVG5DVk_-U_CK0_p-s0F29kINohy3K0/view?usp=drive_link"},{name:"홍보교육학회 가을호 (온라인용)", url:"https://drive.google.com/file/d/1PNcMEAYjqFXLwyXBoQw7v4nuWH02BeO9/view?usp=drive_link"}], images:[] },
+  { id:22, title:"2022년 기부금모금액활용실적명세서", date:"2023년 4월 27일", read:"1분 분량", cat:"report", body:"2022년도 기부금모금액활용실적명세서입니다.", pdf:{name:"공개 보고서 기부금모금액 및 활용실적명세 (2022)", url:"https://drive.google.com/file/d/1ffVVLNaukTvGiem4K19Myx96CIHTpkuK/view?usp=drive_link"}, images:[] },
+  { id:23, title:"2022년 공익법인결산공시", date:"2023년 4월 27일", read:"1분 분량", cat:"report", body:"2022년도 공익법인결산공시입니다.", pdf:{name:"결산서류 등 공시 (2022)", url:"https://drive.google.com/file/d/1qAT0mZxJuG615SF6jRJlo2W4eB8Q297Y/view?usp=drive_link"}, images:[] },
+  { id:24, title:"2021년 기부금모금액활용실적명세서", date:"2023년 4월 27일", read:"1분 분량", cat:"report", body:"2021년도 기부금모금액활용실적명세서입니다.", pdf:{name:"21년 기부금모금액 및 활용실적명세서", url:"https://drive.google.com/file/d/1EzpwE6TefmIAHYRQxckoWkcqKq7u0LYv/view?usp=drive_link"}, images:[] },
+  { id:25, title:"2021년 공익법인결산공시", date:"2023년 4월 27일", read:"1분 분량", cat:"report", body:"2021년도 공익법인결산공시입니다.", pdf:{name:"21년 결산공시", url:"https://drive.google.com/file/d/1pRaVMbrpjkv_08P4l1DAJZB55UsyxOXU/view?usp=drive_link"}, images:[] },
+  { id:26, title:"2020년 기부금모금액활용실적명세서", date:"2023년 4월 27일", read:"1분 분량", cat:"report", body:"2020년도 기부금모금액활용실적명세서 결과입니다.", pdf:{name:"공익법인 결산서류 등의 공시 간편서식 제출 (2020년)", url:"https://drive.google.com/file/d/1hXrd6kuvRGbolvF797X2p5O-EmNrZu6C/view?usp=drive_link"}, images:[] },
+  { id:27, title:"2020년 공익법인결산공시", date:"2023년 4월 27일", read:"1분 분량", cat:"report", body:"2020년도 마이스홍보교육학회의 결산서류 공시입니다.", pdf:{name:"사단법인 마이스홍보교육학회 공익법인 출연재산 등에 대한 보고서", url:"https://drive.google.com/file/d/1H__uQohanjoqfcXvWCJez-V1LrohWlw2/view?usp=drive_link"}, images:[] },
+  { id:28, title:"강남 도심공항터미널 관련 / 학회 소식", date:"2022년 8월 11일", read:"1분 분량", cat:"history", body:"2019년도 마이스홍보교육학회 법인 설립 허가 관련 소식입니다.\n강남 도심공항터미널 코로나 여파 관련 마이스 산업 동향 및 학회 소식을 담고 있습니다.", images:["https://static.wixstatic.com/media/732936_afa6fd1c6f8b4a0c948d9664b49d061e~mv2.jpg/v1/fill/w_322,h_242,fp_0.50_0.50,q_90,enc_avif,quality_auto/732936_afa6fd1c6f8b4a0c948d9664b49d061e~mv2.jpg"] },
+  { id:29, title:"마이스홍보교육학회 법인설립", date:"2022년 7월 20일", read:"1분 분량", cat:"history", body:"2019년도 마이스홍보교육학회 법인 설립 허가\n\n(사)마이스홍보교육학회는 MICE홍보교육과 관련된 제반 학술연구 및 MICE산업 발전과 MICE 관련 청년 취업 문제 해결을 위한 사회 공익 활동을 수행하는 사단법인으로 2019년 설립 허가를 받았습니다.\n\n법인 등록번호: 110321-0051886", images:["https://static.wixstatic.com/media/732936_780ac4aa75a8491ab94e1f9e5ed5c713~mv2.webp/v1/fill/w_322,h_242,al_c,q_90,enc_avif,quality_auto/732936_780ac4aa75a8491ab94e1f9e5ed5c713~mv2.webp","https://static.wixstatic.com/media/732936_72b421974e6747bdbbff2f87a5d908ce~mv2.jpg/v1/fill/w_128,h_172,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/732936_72b421974e6747bdbbff2f87a5d908ce~mv2.jpg"] }
+];
+
+// URL에서 id 파싱
+const params = new URLSearchParams(location.search);
+const id = parseInt(params.get('id'));
+const p = POSTS.find(x => x.id === id);
+const el = document.getElementById('content');
+
+if (!p) {
+  el.innerHTML = '<div class="not-found">존재하지 않는 게시물입니다.</div>';
+} else {
+  const cfg = CAT[p.cat];
+  const lines = p.body.split('\n');
+  let headingHtml = '', bodyText = p.body;
+  if (lines[0].startsWith('【') && lines[0].endsWith('】')) {
+    headingHtml = `<div class="post-section-heading">${lines[0].replace(/【|】/g,'').trim()}</div>`;
+    bodyText = lines.slice(1).join('\n').trim();
+  }
+
+  // PDF 링크
+  let pdfHtml = '';
+  if (p.pdf) {
+    pdfHtml = `<div class="post-pdfs"><a class="pdf-link" href="${p.pdf.url}" target="_blank"><span class="ico">📄</span><div><strong>${p.pdf.name}</strong><span>Google Drive에서 열기 →</span></div></a></div>`;
+  } else if (p.pdfs) {
+    pdfHtml = `<div class="post-pdfs">${p.pdfs.map(f=>`<a class="pdf-link" href="${f.url}" target="_blank"><span class="ico">📄</span><div><strong>${f.name}</strong><span>Google Drive에서 열기 →</span></div></a>`).join('')}</div>`;
+  }
+
+  // 이미지
+  const imgHtml = (p.images||[]).length
+    ? `<div class="post-images">${p.images.map(s=>`<img src="${s}" alt="첨부이미지" loading="lazy">`).join('')}</div>`
+    : '';
+
+  document.title = `${p.title} | (사)마이스홍보교육학회`;
+
+  el.innerHTML = `
+  <div class="post-wrap">
+    <div class="post-meta">
+      <div class="post-avatar">sn</div>
+      <span class="post-author">snsmedia</span>
+      <span class="post-dot">·</span>
+      <span class="post-date">${p.date} · ${p.read}</span>
+      <span class="post-cat-badge" style="background:${cfg.color}">${cfg.label}</span>
+      <button class="post-more">⋯</button>
+    </div>
+    <div class="post-title">${p.title}</div>
+    <hr class="post-divider">
+    <div class="post-body">
+      ${headingHtml}
+      <div class="post-text">${bodyText.replace(/\n/g,'<br>')}</div>
+    </div>
+    ${imgHtml}
+    ${pdfHtml}
+  </div>`;
+}
+</script>
+</body>
+</html>
